@@ -1,7 +1,27 @@
 
-# Tarun & Tanuj FastAPI Project
+# Secure Backend API with Authentication and CRUD Operations
 
-A comprehensive product inventory management system built with FastAPI backend and React frontend, providing seamless tracking and management of product inventory.
+This project was created to learn and gain hands-on experience with Node.js, Express, JWT-based authentication, and modern backend development practices. It provides a secure REST API with user authentication and authorization, allowing users to register, log in, and access protected resources.
+
+The application includes complete CRUD functionality for managing movies, along with a personalized watchlist system where users can track movies they plan to watch, are currently watching, have completed, or have dropped. Users can also rate movies and add optional notes to their watchlist entries.
+
+The project incorporates modern backend development practices, including password hashing with bcryptjs, JWT authentication middleware, request validation using Zod, and centralized error handling. Oracle Express is used as the backned database. The application is designed as a practical end-to-end project for learning how to build secure, structured, and maintainable backend APIs.
+
+## Prerequisites
+
+- **NodeJS**: Version 18 or higher
+- **Oracle Database XE**: For this project we used Oracle XE.
+
+## Tech Stack
+
+- **NodeJS**: JavaScript runtime for server-side development
+- **Express.js**: Fast, minimalist web framework for Node.js
+- **Oracle XE**: Oracle express edition
+- **Zod**: TypeScript-first schema validation library
+- **bcryptjs**: TypeScript-first schema validation library
+- **dotenv**: Environment variable management
+- **Docker**: For deployment - Dockerfile is provided for creating the dockmer image
+- **docker-compose**: Sample file for creating the container.
 
 ## Features
 
@@ -12,56 +32,50 @@ A comprehensive product inventory management system built with FastAPI backend a
 
 ## Setup
 
-1. **Create and activate virtual environment:**
+1. **Clone Repository:**
    ```bash
-   pip install uv
-   Go to the All projects folder
-      cd I:\Projects\UV-Projects
-   Initialize UV
-      uv add fastapi-app
-      This will create the fastapi-app folder
+   git clone https://github.com/yourusername/backend-orcl.git
+   cd backend-orcl
    
-   Activate Virtual env
-      cd I:\Projects\UV-Projects\fastapi-app
-      .venv\Scripts\activate.ps1  # Windows PowerShell
    ```
-
 2. **Install dependencies:**
    ```bash
-   uv add fastapi uvicorn sqlalchemy oracledb
-   #pip install fastapi uvicorn
+   npm install
    ```
 
-3. **Run the application:**
+3. **Set up environment variables:**
    ```bash
-   uvicorn main:app --reload
+   DATABASE_USER=
+   DATABASE_PASSWORD=
+   DATABASE_URI=DBHOST:PORT/DB_SERVICE
+   PORT=8090
+   POOL_MIN=1
+   POOL_MAX=10
+   POOL_INCREMENT=1
+   NODE_ENV="development"
+   JWT_SECRET="" # Create Secret
+   JWT_EXPIRES_IN="7d"
    ```
-4. **Create .env file in the projectRoot:**
+4. **Start the server:**
    ```bash
-   For Oracle:
-      DATABASE_URL="oracle+oracledb://dbuser:dbpass@DBHost:DBPORT/?service_name=DB_SERVICE"
+   npm run dev
    ```
 5. **Test the APIs with swagger:**
    ```bash
    Access the following link and test the available APIs
    http://localhost:8000/docs#
-   ```   
-6. **Access the API:**
-   - API: http://localhost:8000
-   - Interactive docs: http://localhost:8000/docs
-   - ReDoc: http://localhost:8000/redoc
-
-7. **Docker containerization:**
+   ```
+6. **Docker containerization:**
  ```bash
+   - This is required only for deploying the application on a docker host.
    - Refer included Dockerfile for creating the docker image
      To build the image:
-         cd /mnt/i/Projects/UV-Projects/fastapi-app
-         docker build -t fastapi-app:1.1 .     
+         Goto the application folder
+         docker build -t movie-api:1.0 .     
    - Sample Docker compose file is also included
      To start the container:
      docker compose up -d 
-     Note: The following variable should be added to the .env file:
-        DATABASE_URL="oracle+oracledb://dbuser:dbpass@DBHost:DBPORT/?service_name=DB_SERVICE"
+
 ```
 8. **If WSL (Windows Subsystem for Linux) is used for docker:**
  ```bash
@@ -72,59 +86,28 @@ A comprehensive product inventory management system built with FastAPI backend a
    - Sample Firewall Rule:
      netsh advfirewall firewall add rule name="WSL 8080" protocol=TCP dir=in localport=8080 action=allow
 ``` 
-   
-  
-
-## Project Structure
-
-```
-fastapi-app/
-+-- main.py               # FastAPI application with endpoints
-+-- models.py             # Pydantic models for DB table
-+-- database.py           # To get a handle to the DB connection
-+-- database_models.py    # Table Structure for the product 
-+-- .gitignore            # Git ignore file
-+-- Dockerfile.yaml       # Dockerfile for building a docker image
-+-- compose.yaml          # Compose file to run the container.
-+-- README.md             # This file
-```
 
 ## API Usage Examples
 
-### Get all products
+### User Registration
 ```bash
-curl http://localhost:8000/products/
+curl http://localhost:8080/register/
+```
+### User Login
+```bash
+curl http://localhost:8080/login/
+```
+### Get movie details
+```bash
+curl http://localhost:8080/movies/4
 ```
 
-### Get product by ID
+### Add movie - Post method
 ```bash
-curl http://localhost:8000/products/1
+curl http://localhost:8080/movies
 ```
 
-### Create a new product
+### Add Movie to the watch list
 ```bash
-curl -X POST "http://localhost:8000/products/" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "id": 5,
-       "name": "Sony Headphone",
-       "description": "Sony wireless noise-canceling headphone",
-       "price": 229.99,
-       "quantity": 81
-     }'
+curl http://localhost:8080/watchlist
 ```
-
-## Models
-
-### Product
-- `id`: integer
-- `name`: string
-- `description`: string
-- `price`: float
-- `quantity`: integer
-
-## Built With
-
-- [FastAPI](https://fastapi.tiangolo.com/) - Modern, fast web framework for building APIs
-- [Pydantic](https://pydantic-docs.helpmanual.io/) - Data validation using Python type hints
-- [Uvicorn](https://www.uvicorn.org/) - ASGI server implementation
