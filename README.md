@@ -23,13 +23,6 @@ The project incorporates modern backend development practices, including passwor
 - **Docker**: For deployment - Dockerfile is provided for creating the dockmer image
 - **docker-compose**: Sample file for creating the container.
 
-## Features
-
-- **GET /**: Welcome endpoint
-- **GET /products/**: Get all products
-- **GET /products/{product_id}**: Get a specific product by ID
-- **POST /products/**: Create a new product
-
 ## Setup
 
 1. **Clone Repository:**
