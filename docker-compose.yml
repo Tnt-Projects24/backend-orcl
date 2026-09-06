@@ -1,0 +1,11 @@
+services:
+  movie-api:
+    image: movie-api:1.0
+    container_name: movie-api
+    restart: unless-stopped
+
+    ports:
+      - "8090:8090"
+
+    env_file:
+      - .env
